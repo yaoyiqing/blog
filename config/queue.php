@@ -29,11 +29,11 @@ return [
     */
 
     'connections' => [
-
+        // 同步队列
         'sync' => [
             'driver' => 'sync',
         ],
-
+        // 数据库为中间转存
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
@@ -56,7 +56,7 @@ return [
             'queue' => env('SQS_QUEUE', 'your-queue-name'),
             'region' => env('SQS_REGION', 'us-east-1'),
         ],
-
+        // 通过redis实现队列
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',

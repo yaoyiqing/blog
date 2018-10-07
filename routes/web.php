@@ -45,6 +45,8 @@ Route::get('/order','Mi\CartController@order');      //  订单
 
 Route::get('/self','Mi\UserController@self');      //  个人信息页
 
+Route::post('/checkName','Mi\UserController@checkName');      //  验证用户名唯一性
+
 Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 

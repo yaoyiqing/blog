@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
         <meta name="author" content="order by dede58.com"/>
 		<title>会员登录</title>
+        <script src="{{URL::asset('/mi/js/jquery.min.js')}}"></script>
 		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/mi/css/login.css') }}">
 		
 	</head>
