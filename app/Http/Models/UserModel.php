@@ -12,7 +12,4 @@ class UserModel extends Model
 
     protected $primaryKey= 'user_id';
 
-    protected $fillable=['username','password','mobile'];
-
-
 }

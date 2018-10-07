@@ -15,12 +15,28 @@ use App\Service\UserService;
 
 class UserController extends Controller
 {
+    // 注册验证
     public function checkCaptcha(Request $request)
     {
-        $verificode = $this->validate($request,[
+        $validated = $this->validate($request,[
+            'username' => 'required|string|max:30|unique:mi_user',
+            'password' => 'required|string|max:32',
+            'mobile' => 'required|string|max:11|unique:mi_user',
+//            'user_email' => 'required|string|max:255|unique:mi_user',
             'verificode' => 'required|captcha',
         ]);
-        return $verificode;
+        return $validated;
+    }
+
+    // 登录验证
+    public function checkVerificode(Request $request)
+    {
+        $validated = $this->validate($request,[
+            'username' => 'required',
+            'password' => 'required',
+            'verificode' => 'required|captcha',
+        ]);
+        return $validated;
     }
 
     public function login()
@@ -30,7 +46,36 @@ class UserController extends Controller
 
     public function doLogin()
     {
-
+        $request = Request();
+        $info = $request->all();
+        $res = $this->checkVerificode($request);
+        if($res){
+            $username = $info['username'];
+            $password = md5($info['password']);
+            $user = DB::table('mi_user')->where('username',$username)->first();
+//            var_dump($user->password);die;
+            if($user){
+                if($password == $user->password){
+                    $log = [
+                        'login_time' => time(),
+                        'login_ip' => 0,
+                        'login_addr' => 0,
+                        'login_type' => 0,
+                        'user_id' => $user->user_id,
+                    ];
+                    $res = DB::table('mi_user_login_log')->insert($log);
+                    if($res){
+                        return redirect('index');
+                    }
+                }else{
+                    return redirect('login');
+                }
+            }else{
+                return redirect('login');
+            }
+        }else{
+            return redirect('login');
+        }
     }
 
     public function register()
@@ -44,23 +89,27 @@ class UserController extends Controller
         $info = $request->all();
         // 验证验证码
         $res = $this->checkCaptcha($request);
+//        var_dump($res);die;
         // 密码验证
         if($res){
             if($info['password']){
                 if($info['password'] == $info['repassword']){
                     $user = [
                         'username' => $info['username'],
-                        'password' => $info['password'],
+                        'password' => md5($info['password']),
                         'mobile' => $info['mobile'],
                     ];
                     $res = DB::table('mi_user')->insert($user);
                     if($res){
-                        return redirect();
+                        return redirect('login');
+                    }else{
+                        return redirect('register');
                     }
                 }
             }
+        }else{
+            return redirect('register');
         }
-
     }
 
     public function self()

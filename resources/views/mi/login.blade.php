@@ -15,6 +15,7 @@
 			</div>
 		</div>
 		<form  method="post" action="/doLogin" class="form center">
+			@csrf
 		<div class="login">
 			<div class="login_center">
 				<div class="login_top">
@@ -27,8 +28,15 @@
 					<div class="username">用户名:&nbsp;<input class="shurukuang" type="text" name="username" placeholder="请输入你的用户名"/></div>
 					<div class="username">密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang" type="password" name="password" placeholder="请输入你的密码"/></div>
 					<div class="username">
-						<div class="left fl">验证码:&nbsp;<input class="yanzhengma" type="text" name="username" placeholder="请输入验证码"/></div>
-						<div class="right fl"><img src="{{URL::asset('/mi/image/yanzhengma.jpg')}}"></div>
+						<div class="left fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;<input class="yanzhengma" type="text" name="verificode" placeholder="请输入验证码"/></div>
+
+						@if($errors->has('captcha'))
+							<div class="col-md-12">
+								<p class="text-danger text-left"><strong>{{$errors->first('captcha')}}</strong></p>
+							</div>
+						@endif
+
+						<div class="right fl"><img src="{{captcha_src()}}"  style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()"></div>
 						<div class="clear"></div>
 					</div>
 				</div>
