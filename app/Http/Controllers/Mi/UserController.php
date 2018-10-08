@@ -15,17 +15,14 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Service\UserService;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    // 注册验证
+    // 验证码验证
     public function checkCaptcha(Request $request)
     {
         $validated = $this->validate($request,[
-//            'username' => 'required|string|max:30|unique:mi_user',
-//            'password' => 'required|string|max:32',
-//            'mobile' => 'required|string|max:11|unique:mi_user',
-//            'user_email' => 'required|string|max:255|unique:mi_user',
             'verificode' => 'required|captcha',
         ]);
         return $validated;
@@ -61,10 +58,13 @@ class UserController extends Controller
 //            var_dump($user->password);die;
             if($user){
                 if($password == $user->password){
+                    $addr = file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=" . $_SERVER['REMOTE_ADDR']);
+                    $addr = json_decode($addr,true);
+                    $addr = $addr['data']['city'];
                     $log = [
                         'login_time' => time(),
                         'login_ip' => $_SERVER['REMOTE_ADDR'],
-                        'login_addr' => 0,
+                        'login_addr' => $addr,
                         'login_type' => 0,
                         'user_id' => $user->user_id,
                     ];
@@ -94,45 +94,30 @@ class UserController extends Controller
         $info = $request->input();
         // 验证验证码
         $res = $this->checkCaptcha($request);
-//        if($res){
-//            if($info){
-//                $regemail = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
-//                $regmobile = "/^1[345678][0-9]{9}$/";
-//                if(preg_match($regemail,$info['username'])){
-//                    echo "邮箱";
-//                }elseif(preg_match($regmobile,$info['username'])){
-//                    echo "手机";
-//                }else{
-//                    return false;
-//                }
-//                $userinfo = [
-//                    'username' => $info['username'],
-//                    'password' => md5($info['password']),
-//                ];
-////                var_dump($userinfo);die;
-//                $res = $model->registerUser($userinfo);
-//                if($res){
-//                    return redirect('login');
-//                }else{
-//                    return redirect('register');
-//                }
-//            }
-//        }
-//         密码验证
-        if($res){
-            if($info['password']){
-                if($info['password'] == $info['repassword']){
-                    $user = [
-                        'username' => $info['username'],
-                        'password' => md5($info['password']),
-                        'mobile' => $info['mobile'],
-                    ];
-                    $res = $model->registerUser($user);
-                    if($res){
-                        return redirect('login');
-                    }else{
-                        return redirect('register');
-                    }
+        if ($res) {
+            if ($info) {
+                $regemail = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
+                $regmobile = "/^1[345678][0-9]{9}$/";
+                if (preg_match($regemail, $info['username'])) {
+                    $data = ['email' => $info['username']];
+                    Mail::send('mi/turn', $data, function ($message) use ($data) {
+                        $message->to($data['email'])->subject('欢迎加入我们的网站！');
+                    });
+                } elseif (preg_match($regmobile, $info['username'])) {
+                    echo "手机";
+                } else {
+                    return false;
+                }
+                $userinfo = [
+                    'username' => $info['username'],
+                    'password' => md5($info['password']),
+                ];
+//                var_dump($userinfo);die;
+                $res = $model->registerUser($userinfo);
+                if ($res) {
+                    return redirect('login');
+                } else {
+                    return redirect('register');
                 }
             }
         }else{
