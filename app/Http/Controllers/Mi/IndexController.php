@@ -19,9 +19,9 @@ class IndexController extends Controller
         $navmodel = new NavModel();
         $navs = $navmodel->getNavgate();
         $catemodel = new CateModel();
-        $cate = $catemodel->getcategory();
+        $cates = $catemodel->getcategory();
 //        dump($navs);die;
-        return view('mi.index',['navs' => $navs,'cate' => $cate]);
+        return view('mi.index',['navs' => $navs,'cates' => $cates]);
     }
 
     public function list()

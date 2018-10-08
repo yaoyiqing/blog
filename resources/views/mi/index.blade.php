@@ -29,9 +29,9 @@
 		<div class="banner_y center">
 			<div class="nav">				
 				<ul>
+					@foreach($cates as $cate)
 					<li>
-						<a href="">手机</a>
-						<a href="">电话卡</a>
+						<a href="">{{$cate->cate_name}}</a>
 						<div class="pop">
 							<div class="left fl">
 								<div>
@@ -70,91 +70,7 @@
 							<div class="clear"></div>
 						</div>
 					</li>
-					<li>
-						<a href="">笔记本</a>
-						<a href="">平板</a>
-						<div class="pop">
-							<div class="left fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="{{URL::asset('/mi/image/xm6_80.png')}}" alt=""></div>
-											<span class="fl">小米6</span>
-										</a>
-									</div>
-									<div class="xuangou_right fr"><a href="detail.blade.php" target="_blank">选购</a></div>
-									<div class="clear"></div>
-								</div>
-							</div>
-							<div class="ctn fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="/mi/image/xm5-80.jpg" alt=""></div>
-											<span class="fl">小米手机5</span>
-										</a>
-									</div>
-									<div class="xuangou_right fr"><a href="">选购</a></div>
-								</div>
-							</div>
-							<div class="right fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="/mi/image/mimobile.jpg" alt=""></div>
-											<span class="fl">小米移动&nbsp;电话卡</span>
-										</a>
-									</div>
-									<div class="xuangou_right fr"><a href="">选购</a></div>
-								</div>
-							</div>
-							<div class="clear"></div>
-						</div>
-					</li>
-					<li>
-						<a href="">电视</a>
-						<a href="">盒子</a>
-
-					</li>
-					<li>
-						<a href="">路由器</a>
-						<a href="">智能硬件</a>
-
-					</li>
-					<li>
-						<a href="">移动电源</a>
-						<a href="">电池</a>
-						<a href="">插线板</a>
-
-					</li>
-					<li>
-						<a href="">耳机</a>
-						<a href="">音箱</a>
-
-					</li>
-					<li>
-						<a href="">保护套</a>
-						<a href="">贴膜</a>
-
-					</li>
-					<li>
-						<a href="">线材</a>
-						<a href="">支架</a>
-						<a href="">储存卡</a>
-
-					</li>
-					<li>
-						<a href="">箱包</a>
-						<a href="">服饰</a>
-						<a href="">鞋</a>
-						<a href="">眼镜</a>
-
-					</li>
-					<li>
-						<a href="">米兔</a>
-						<a href="">生活周边</a>
-
-					</li>
+					@endforeach
 				</ul>
 			</div>
 		
