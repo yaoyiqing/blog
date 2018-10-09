@@ -13,6 +13,9 @@ class UserModel extends Model
 
     protected $primaryKey= 'user_id';
 
+    /*
+     * 注册用户信息入库
+     */
     public function registerUser($user)
     {
         $res = DB::table($this->table)->insert($user);
@@ -23,12 +26,18 @@ class UserModel extends Model
         }
     }
 
+    /*
+     * 通过用户主键获取用户信息
+     */
     public function getUserinfoById($user_id)
     {
         $userinfo = DB::table($this->table)->find($user_id);
         return $userinfo;
     }
 
+    /*
+     * 通过用户名获取用户信息
+     */
     public function getUserinfoByName($username)
     {
         $userinfo = DB::table($this->table)->where('username',$username)->first();

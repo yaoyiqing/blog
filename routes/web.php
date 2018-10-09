@@ -34,6 +34,8 @@ Route::get('/index','Mi\IndexController@index');        //  首页
 Route::get('/login','Mi\UserController@login');         //  登录页
 Route::post('/doLogin','Mi\UserController@doLogin');    //  登录
 
+Route::get('/logout','Mi\UserController@logout');      //  退出登录
+
 Route::get('/register','Mi\UserController@register');   //  注册页
 Route::post('/regist','Mi\UserController@regist');      //  注册
 

@@ -38,11 +38,21 @@
             <div class="gouwuche fr"><a href="{{url('/cart')}}">购物车</a></div>
             <div class="fr">
                 <ul>
-                    <li><a href="{{url('/login')}}" target="_blank">登录</a></li>
-                    <li>|</li>
-                    <li><a href="{{url('/register')}}" target="_blank" >注册</a></li>
-                    <li>|</li>
-                    <li><a href="">消息通知</a></li>
+                    @if(session()->has('user'))
+                        <li><a href="{{url('/self')}}" target="_blank">{{session()->get('user')->username}}</a></li>
+                        <li>|</li>
+                        <li><a href="{{url('/logout')}}">退出</a></li>
+                        <li>|</li>
+                        <li><a href="">消息通知</a></li>
+                        <li>|</li>
+                        <li><a href="{{url('/order')}}">我的订单</a></li>
+                    @else
+                        <li><a href="{{url('/login')}}" target="_blank">登录</a></li>
+                        <li>|</li>
+                        <li><a href="{{url('/register')}}" target="_blank" >注册</a></li>
+                        <li>|</li>
+                        <li><a href="">消息通知</a></li>
+                    @endif
                 </ul>
             </div>
             <div class="clear"></div>
