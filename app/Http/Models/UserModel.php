@@ -43,4 +43,5 @@ class UserModel extends Model
         $userinfo = DB::table($this->table)->where('username',$username)->first();
         return $userinfo;
     }
+
 }

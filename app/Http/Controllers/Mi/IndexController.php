@@ -9,17 +9,15 @@
 namespace App\Http\Controllers\Mi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Models\CateModel;
-use App\Http\Models\NavModel;
+use App\Services\IndexService;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        $navmodel = new NavModel();
-        $navs = $navmodel->getNavgate();
-        $catemodel = new CateModel();
-        $cates = $catemodel->getcategory();
+        $service = new IndexService();
+        $navs = $service->getNav();
+        $cates = $service->getCate();
 //        dump($navs);die;
         return view('mi.index',['navs' => $navs,'cates' => $cates]);
     }

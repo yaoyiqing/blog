@@ -29,4 +29,22 @@ class LoginLogModel extends Model
             return false;
         }
     }
+
+    /*
+     * 通过用户id查找登录日志并根据登录时间排序
+     */
+    public function getLoginCountById($user_id)
+    {
+        $data = DB::table($this->table)->where('user_id',$user_id)->orderBy('login_time')->get();
+        return $data;
+    }
+
+    /*
+     * 根据用户id以及日志表的自增id修改单条数据
+     */
+    public function saveLoginLogByUser($user_id,$login_id,$data)
+    {
+        $result = DB::table($this->table)->where('user_id',$user_id)->where('user_login_id',$login_id)->update($data);
+        return $result;
+    }
 }

@@ -69,7 +69,8 @@
 			success:function(msg){
 			    if(msg){
                     $("#checkname").text('可以注册');
-					return true;
+                    $("#form").submit();
+					// return true;
 				}else{
 			        // alert('用户名已存在');
                     $("#checkname").text('用户名已存在');
@@ -78,39 +79,4 @@
 			}
 		})
 	}
-
-	function checkpwd() {
-	    checkusername();
-		var password = $("#password").val();
-		var regpwd = /^\w{6,}$/;
-		if(regpwd.test(password)){
-			$("#checkpwd").text('密码验证成功');
-			return true;
-		}else{
-            $("#checkpwd").text('密码验证失败');
-            return false;
-		}
-    }
-
-    function checkrepwd() {
-        var password = $("password").val();
-        var repassword = $("repassword").val();
-        if(checkpwd()){
-			if(password === repassword){
-				$("#checkrepwd").text('验证成功');
-				return true;
-			}else{
-                $("#checkrepwd").text('验证失败');
-                return false;
-			}
-        }
-    }
-
-    $("#form").submit(function(){
-        if(checkpwd() && checkrepwd()){
-            return true;
-		}else{
-            return false;
-		}
-	});
 </script>

@@ -53,7 +53,7 @@ Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
-
+Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
 
 
 

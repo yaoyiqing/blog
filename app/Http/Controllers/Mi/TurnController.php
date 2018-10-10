@@ -13,8 +13,17 @@ use App\Http\Controllers\Controller;
 
 class TurnController extends Controller
 {
+
     public function turn()
     {
         return view('mi.turn');
+    }
+
+    /*
+     * 跳转信息提示页
+     */
+    public function prompt()
+    {
+        return view('mi.prompt');
     }
 }

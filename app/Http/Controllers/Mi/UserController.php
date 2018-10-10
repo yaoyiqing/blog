@@ -13,7 +13,6 @@ use App\Jobs\SendEmail;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -44,7 +43,7 @@ class UserController extends Controller
         $result = $userService->login($info);
         // 根据service层登录方法的返回值判断执行相应的结果（跳转/返回错误信息）
         if($result){
-            return redirect('index');
+            return $this->success('登录成功','index');
         }
     }
 
@@ -54,7 +53,7 @@ class UserController extends Controller
     public function logout()
     {
         Session::forget('user');
-        return redirect('index');
+        return $this->success('退出成功','login');
     }
 
     public function register()
@@ -93,11 +92,11 @@ class UserController extends Controller
         if($result == 1){
             // 队列发送邮件
             $this->dispatch(new SendEmail($info['username']));
-            return redirect('login')->with('message','邮箱注册成功,请登录');
+            return $this->success('邮箱注册成功,请登录','login');
         }else if($result == 2){
-            return redirect('login')->with('message','手机号注册成功,请登录');
+            return $this->success('手机号注册成功,请登录','login');
         }else{
-            return redirect('register')->with('message','注册失败,请重试');
+            return $this->error('注册失败,请重试','register');
         }
 
     }
@@ -109,7 +108,7 @@ class UserController extends Controller
 
     /*
      * 验证用户名唯一性
-    */
+     */
     public function checkNameIsOnly(Request $request){
         $username = $request->input('username');
         $userService = new UserService();
@@ -121,4 +120,5 @@ class UserController extends Controller
             return false;
         }
     }
+
 }

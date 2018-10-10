@@ -45,7 +45,14 @@ class UserService
             'login_type' => 0,
             'user_id' => $user->user_id,
         ];
-        $result = $logModel->loginLog($log);
+        $data = $logModel->getLoginCountById($user->user_id);
+        $count = count($data);
+        // 判断同一个用户的登录信息是否满10条
+        if($count < 10){
+            $result = $logModel->loginLog($log);
+        }else{
+            $result = $logModel->saveLoginLogByUser($data[0]->user_id,$data[0]->user_login_id,$log);
+        }
         if($result){
             Session::put('user',$user);
             return true;
@@ -72,8 +79,15 @@ class UserService
                     return 1;
                 }
             } elseif (preg_match($regmobile, $info['username'])) {
-                // 手机号注册成功
-                return 2;
+                $userinfo = [
+                    'username' => $info['username'],
+                    'password' => md5($info['password']),
+                ];
+                $result = $model->registerUser($userinfo);
+                if($result){
+                    // 手机号注册成功
+                    return 2;
+                }
             } else {
                 // 注册失败
                 return 3;

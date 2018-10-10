@@ -19,7 +19,7 @@ class CateModel extends Model
 
     protected $primaryKey= 'cate_id';
 
-    public function getcategory($column = ['*'])
+    public function getCategory($column = ['*'])
     {
         $data = DB::table($this->table)->select($column)->get();
         return $data;
