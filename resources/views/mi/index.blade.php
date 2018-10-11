@@ -29,46 +29,59 @@
 		<div class="banner_y center">
 			<div class="nav">				
 				<ul>
-					@foreach($cates as $cate)
+					@foreach($cates as $key => $cate)
 					<li>
-						<a href="">{{$cate->cate_name}}</a>
+						<a href="">{{count($cate['son'])}}{{$cate['cate_name']}}</a>
 						<div class="pop">
-							<div class="left fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="{{URL::asset('/mi/image/xm6_80.png')}}" alt=""></div>
-											<span class="fl">小米6</span>
-										</a>
+							@foreach($cate['son'] as $sonCate)
+								@if($sonCate['cate_id'] % 3 == 0)
+								<div class="left fl" style="height:80px;">
+									<div>
+										<div class="xuangou_left fl">
+											<a href="">
+												<div class="img fl"><img src="{{URL::asset('/mi/image/xm6_80.png')}}" alt=""></div>
+												<span class="fl">{{$sonCate['cate_name']}}</span>
+												<div class="clear"></div>
+											</a>
+										</div>
+										<div class="xuangou_right fr"><a href="detail.blade.php" target="_blank">选购</a></div>
+										<div class="clear"></div>
 									</div>
-									<div class="xuangou_right fr"><a href="detail.blade.php" target="_blank">选购</a></div>
-									<div class="clear"></div>
 								</div>
-							</div>
-							<div class="ctn fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="/mi/image/xm5-80.jpg" alt=""></div>
-											<span class="fl">小米手机5</span>
-										</a>
+								@endif
+								@if($sonCate['cate_id'] % 3 == 1)
+								<div class="ctn fl" style="height:80px;">
+									<div>
+										<div class="xuangou_left fl">
+											<a href="">
+												<div class="img fl"><img src="/mi/image/xm5-80.jpg" alt=""></div>
+												<span class="fl">{{$sonCate['cate_name']}}</span>
+												<div class="clear"></div>
+											</a>
+										</div>
+										<div class="xuangou_right fr"><a href="">选购</a></div>
+										<div class="clear"></div>
 									</div>
-									<div class="xuangou_right fr"><a href="">选购</a></div>
 								</div>
-							</div>
-							<div class="right fl">
-								<div>
-									<div class="xuangou_left fl">
-										<a href="">
-											<div class="img fl"><img src="/mi/image/mimobile.jpg" alt=""></div>
-											<span class="fl">小米移动&nbsp;电话卡</span>
-										</a>
+								@endif
+								@if($sonCate['cate_id'] % 3 == 2)
+								<div class="right fl" style="height:80px;">
+									<div>
+										<div class="xuangou_left fl">
+											<a href="">
+												<div class="img fl"><img src="/mi/image/mimobile.jpg" alt=""></div>
+												<span class="fl">{{$sonCate['cate_name']}}</span>
+												<div class="clear"></div>
+											</a>
+										</div>
+										<div class="xuangou_right fr"><a href="">选购</a></div>
+										<div class="clear"></div>
 									</div>
-									<div class="xuangou_right fr"><a href="">选购</a></div>
 								</div>
-							</div>
-							<div class="clear"></div>
+								@endif
+							@endforeach
 						</div>
+						<div class="clear"></div>
 					</li>
 					@endforeach
 				</ul>

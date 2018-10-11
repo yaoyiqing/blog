@@ -120,5 +120,4 @@ class UserController extends Controller
             return false;
         }
     }
-
 }

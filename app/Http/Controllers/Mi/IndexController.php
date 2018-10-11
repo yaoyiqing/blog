@@ -18,7 +18,8 @@ class IndexController extends Controller
         $service = new IndexService();
         $navs = $service->getNav();
         $cates = $service->getCate();
-//        dump($navs);die;
+        $cates = $service->getSonCates($cates);
+//        echo "<pre/>"; print_r($cates);die;
         return view('mi.index',['navs' => $navs,'cates' => $cates]);
     }
 

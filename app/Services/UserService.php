@@ -76,6 +76,7 @@ class UserService
                 $result = $model->registerUser($userinfo);
                 if($result){
                     // 邮箱注册成功
+                    Session::put('user',$userinfo);
                     return 1;
                 }
             } elseif (preg_match($regmobile, $info['username'])) {
@@ -86,6 +87,7 @@ class UserService
                 $result = $model->registerUser($userinfo);
                 if($result){
                     // 手机号注册成功
+                    Session::put('user',$userinfo);
                     return 2;
                 }
             } else {
