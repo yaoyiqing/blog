@@ -31,11 +31,6 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'required',
             'verificode' => 'required | captcha',
-        ],[
-            'username.required' => '用户名不能为空',
-            'password.required' => '用户密码不能为空',
-            'verificode.required' => '验证码不能为空',
-            'verificode.captcha' => '验证码有误',
         ]);
         // 调用service层登录方法
         $userService = new UserService();
@@ -68,21 +63,10 @@ class UserController extends Controller
     {
         // 验证数据
         $this->validate($request,[
-//            'telephone' => ['required_without:id_no', 'regex:/^1[3-9]\d{9}$/'],
-//            'username' => ['required','unique:mi_user,username','regex:/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/'],
-            'username' => 'required | unique:mi_user,username',
-            'password' => 'required | min:6 | confirmed',
+            'mobile' => ['required_without_all:user_email,mobile', 'unique:mi_user,mobile','regex:/^1[345678][0-9]{9}$/'],
+            'user_email' => ['required_without_all:mobile,user_email', 'unique:mi_user,user_email','regex:/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/'],//
+            'password' => ['required','confirmed','regex:/^[A-Za-z\d]{6,11}$/'],
             'verificode' => 'required | captcha',
-        ],[
-            'username.required' => '用户名不能为空',
-            'username.unique' => '用户名已被注册',
-//            'username.regex' => '用户名格式不正确',
-            'password.required' => '密码不能为空',
-            'password.min' => '密码不能少于六位',
-            'password.confirmed' => '两次密码不一致',
-            'repassword.required' => '密码不能为空',
-            'verificode.required' => '验证码不能为空',
-            'verificode.captcha' => '验证码有误',
         ]);
         // 调用service层注册方法
         $userService = new UserService();
@@ -91,10 +75,10 @@ class UserController extends Controller
         // 根据service层注册方法的返回值判断执行相应的结果（跳转/返回错误信息）
         if($result == 1){
             // 队列发送邮件
-            $this->dispatch(new SendEmail($info['username']));
-            return $this->success('邮箱注册成功,请登录','login');
+            $this->dispatch(new SendEmail($info['user_email']));
+            return $this->success('注册成功','index');
         }else if($result == 2){
-            return $this->success('手机号注册成功,请登录','login');
+            return $this->success('注册成功,请登录','index');
         }else{
             return $this->error('注册失败,请重试','register');
         }
@@ -115,9 +99,9 @@ class UserController extends Controller
         $result = $userService->checkNameIsOnly($username);
         if($result){
             // 用户未被注册，可以使用
-            return true;
+            return 1;
         }else{
-            return false;
+            return 0;
         }
     }
 }

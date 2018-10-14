@@ -39,7 +39,7 @@
             <div class="fr">
                 <ul>
                     @if(session()->has('user'))
-                        <li><a href="{{url('/self')}}" target="_blank">{{session()->get('user')->username}}</a></li>
+                        <li><a href="{{url('/self')}}" target="_blank">{{session()->get('user.username')}}</a></li>
                         <li>|</li>
                         <li><a href="{{url('/logout')}}">退出</a></li>
                         <li>|</li>

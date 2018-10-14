@@ -33,7 +33,7 @@ class SendEmail implements ShouldQueue
     {
         $user = $this->user;
 
-        Mail::raw('恭喜成为我网站一员',function ($message){
+        Mail::raw('恭喜成为我网站一员，http://sep.blog.com/index',function ($message){
             // 发件人（你自己的邮箱和名称）
             $message->from('1271557806@qq.com', '邮箱注册账号成功提醒');
             // 收件人的邮箱地址

@@ -18,12 +18,9 @@ class UserModel extends Model
      */
     public function registerUser($user)
     {
-        $res = DB::table($this->table)->insert($user);
-        if($res){
-            return true;
-        }else{
-            return false;
-        }
+        $res = DB::table($this->table)->insertGetId($user);
+//        dd($res);
+        return $res ? $res : '';
     }
 
     /*
@@ -31,7 +28,7 @@ class UserModel extends Model
      */
     public function getUserinfoById($user_id)
     {
-        $userinfo = DB::table($this->table)->find($user_id);
+        $userinfo = DB::table($this->table)->where('user_id',$user_id)->first();
         return $userinfo;
     }
 
@@ -40,8 +37,31 @@ class UserModel extends Model
      */
     public function getUserinfoByName($username)
     {
-        $userinfo = DB::table($this->table)->where('username',$username)->first();
+        $userinfo = DB::table($this->table)->where('username',$username)->orWhere('user_email',$username)->orWhere('mobile',$username)->first();
+//        dd($userinfo);
         return $userinfo;
     }
 
+    public function getUserinfoByEmail($username)
+    {
+        $userinfo = DB::table($this->table)->Where('user_email',$username)->first();
+//        dd($userinfo);
+        return $userinfo;
+    }
+    public function getUserinfoByMobile($username)
+    {
+        $userinfo = DB::table($this->table)->Where('mobile',$username)->first();
+//        dd($userinfo);
+        return $userinfo;
+    }
+
+    /*
+     * 获取单条用户信息
+     */
+    public function getUserinfo($key,$value)
+    {
+        $userinfo = DB::table($this->table)->Where($key,$value)->first();
+//        dd($userinfo);
+        return $userinfo;
+    }
 }

@@ -31,7 +31,7 @@
 				<ul>
 					@foreach($cates as $key => $cate)
 					<li>
-						<a href="">{{count($cate['son'])}}{{$cate['cate_name']}}</a>
+						<a href="">{{$cate['cate_name']}}</a>
 						<div class="pop">
 							@foreach($cate['son'] as $sonCate)
 								@if($sonCate['cate_id'] % 3 == 0)
