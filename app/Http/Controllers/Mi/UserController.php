@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Mi;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\UserModel;
 use App\Jobs\SendEmail;
+use App\Services\IndexService;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Session;
@@ -87,7 +89,12 @@ class UserController extends Controller
 
     public function self()
     {
-        return view('mi.self_info');
+        $indexService = new IndexService();
+        $userService = new UserService();
+        $navs = $indexService->getNav();
+        $userInfo = $userService->getUserInfo();
+//        dd($userInfo);
+        return view('mi.self_info',['navs' => $navs,'user' => $userInfo]);
     }
 
     /*

@@ -9,17 +9,20 @@
 namespace App\Services;
 
 use App\Http\Models\CateModel;
+use App\Http\Models\GoodsModel;
 use App\Http\Models\NavModel;
 
 class IndexService
 {
     protected $_cateModel;
     protected $_navModel;
+    protected $_goodsModel;
 
     public function __construct()
     {
         $this->_cateModel = new CateModel();
         $this->_navModel = new NavModel();
+        $this->_goodsModel = new GoodsModel();
     }
 
     /*
@@ -83,5 +86,21 @@ class IndexService
             }
         }
         return $data;
+    }
+
+    public function getGoodsToShow()
+    {
+        $singleGoods = $this->_goodsModel->getGoodsByCateOrder('1',5);
+        return $singleGoods;
+//        dd($singleGoods);
+    }
+
+    /*
+     * 配件
+     */
+    public function getPartsToShow()
+    {
+        $parts = $this->_goodsModel->getGoodsByCateOrder('7',4);
+        return $parts;
     }
 }

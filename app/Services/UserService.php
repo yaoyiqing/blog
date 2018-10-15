@@ -126,4 +126,14 @@ class UserService
         }
     }
 
+    /*
+     * 通过session获取用户详细信息
+     */
+    public function getUserInfo()
+    {
+        $user = Session::get('user');
+        $userModel = new UserModel();
+        $userInfo = $userModel->getUserinfo('user_id',$user['user_id']);
+        return $userInfo;
+    }
 }

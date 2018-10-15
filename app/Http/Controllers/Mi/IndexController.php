@@ -19,8 +19,11 @@ class IndexController extends Controller
         $navs = $service->getNav();
         $cates = $service->getCate();
         $cates = $service->getSonCates($cates);
+        $goods = $service->getGoodsToShow();
+        $parts = $service->getPartsToShow();
+//        dd($goods);
 //        echo "<pre/>"; print_r($cates);die;
-        return view('mi.index',['navs' => $navs,'cates' => $cates]);
+        return view('mi.index',['navs' => $navs,'cates' => $cates,'goods' => $goods,'parts' => $parts]);
     }
 
     public function list()
