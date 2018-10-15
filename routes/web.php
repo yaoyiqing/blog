@@ -55,8 +55,18 @@ Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
 Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
 
+Route::get('/admin',function(){
+    return view('mi.backend.dashboard');
+});
 
 
 
 
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/adminlogin', 'HomeController@login');
+Route::get('/adminregister', 'HomeController@register');
