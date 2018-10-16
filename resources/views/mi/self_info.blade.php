@@ -5,13 +5,9 @@
 			<a href=""><div class="ad_top fl"></div></a>
 			<div class="nav fl">
 				<ul>
-					<li><a href="">小米手机</a></li>
-					<li><a href="">红米</a></li>
-					<li><a href="">平板·笔记本</a></li>
-					<li><a href="">电视</a></li>
-					<li><a href="">盒子·影音</a></li>
-					<li><a href="">路由器</a></li>
-					<li><a href="">智能硬件</a></li>
+					@foreach($navs as $nav)
+						<li><a href="{{$nav->nav_route}}" target="_blank">{{$nav->nav_name}}</a></li>
+					@endforeach
 					<li><a href="">服务</a></li>
 					<li><a href="">社区</a></li>
 				</ul>
@@ -55,13 +51,13 @@
 		</div>
 		<div class="rtcont fr">
 			<div class="grzlbt ml40">我的资料</div>
-			<div class="subgrzl ml40"><span>昵称</span><span>啦啦维吉尔</span><span><a href="">编辑</a></span></div>
-			<div class="subgrzl ml40"><span>手机号</span><span>15669097417</span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>昵称</span><span>{{session()->get('user.username')}}</span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>手机号</span><span>{{session()->get('user.mobile')}}</span><span><a href="">编辑</a></span></div>
 			<div class="subgrzl ml40"><span>密码</span><span>************</span><span><a href="">编辑</a></span></div>
-			<div class="subgrzl ml40"><span>个性签名</span><span>一支穿云箭，千军万马来相见！</span><span><a href="">编辑</a></span></div>
-			<div class="subgrzl ml40"><span>我的爱好</span><span>游戏，音乐，旅游，健身</span><span><a href="">编辑</a></span></div>
-			<div class="subgrzl ml40"><span>收货地址</span><span>浙江省杭州市江干区19号大街571号</span><span><a href="">编辑</a></span></div>
-			
+			<div class="subgrzl ml40"><span>个性签名</span><span>{{$user->user_sign}}</span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>我的爱好</span><span>{{$user->user_hobby}}</span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>收货地址</span><span>{{$user->user_addr}}</span><span><a href="">编辑</a></span></div>
+
 		</div>
 		<div class="clear"></div>
 		</div>

@@ -34,6 +34,8 @@ Route::get('/index','Mi\IndexController@index');        //  首页
 Route::get('/login','Mi\UserController@login');         //  登录页
 Route::post('/doLogin','Mi\UserController@doLogin');    //  登录
 
+Route::get('/logout','Mi\UserController@logout');      //  退出登录
+
 Route::get('/register','Mi\UserController@register');   //  注册页
 Route::post('/regist','Mi\UserController@regist');      //  注册
 
@@ -45,8 +47,17 @@ Route::get('/order','Mi\CartController@order');      //  订单
 
 Route::get('/self','Mi\UserController@self');      //  个人信息页
 
+Route::post('/checkName','Mi\UserController@checkName');      //  验证用户名唯一性
+
 Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
+Route::get('/turn','Mi\TurnController@turn');      //  详情页
+
+Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
+
+Route::get('/admin',function(){
+    return view('mi.backend.dashboard');
+});
 
 
 
@@ -54,3 +65,8 @@ Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/adminlogin', 'HomeController@login');
+Route::get('/adminregister', 'HomeController@register');
