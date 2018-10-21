@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', '后台管理首页')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>小米商城后台管理</h1>
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
+    <p>欢迎来到小米商城后台管理</p>
 @stop
 
 @section('css')

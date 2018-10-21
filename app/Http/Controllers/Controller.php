@@ -14,7 +14,7 @@ class Controller extends BaseController
     /*
      * 操作成功跳转提示
      */
-    public function success($message,$url = '/index',$jumpTime = 3)
+    public function success($message,$url,$jumpTime = 3)
     {
         $data = [
             'message' => $message,  //跳转展示信息
@@ -28,7 +28,7 @@ class Controller extends BaseController
     /*
      * 操作失败跳转提示
      */
-    public function error($message,$url = '/index',$jumpTime = 3)
+    public function error($message,$url,$jumpTime = 3)
     {
         $data = [
             'message' => $message,

@@ -17,17 +17,9 @@ Route::get('/', function () {
 //Route::get('/hello', function () {
 //    return 'My Laravel!';
 //});
-//Route::get('/index', 'Index\IndexController@hello');
-//Route::get('/test', 'Test\TestController@select');
-//Route::get('/add', 'Test\TestController@add');
-//Route::get('/del', 'Test\TestController@del');
-//Route::get('/update', 'Test\TestController@update');
-
-//Route::get('/index', 'Test\TestController@index');
-//Route::post('/insert', 'Test\TestController@insert');
 
 /*
- * 小米商城
+ * 小米商城前台
 */
 Route::get('/index','Mi\IndexController@index');        //  首页
 
@@ -55,18 +47,44 @@ Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
 Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
 
-Route::get('/admin',function(){
-    return view('mi.backend.dashboard');
+
+
+
+/*
+ * 小米商城后台
+*/
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/admin/login', 'Admin\AdminController@login');
+Route::post('/admin/doLogin', 'Admin\AdminController@doLogin');
+
+/*
+ * 利用中间件防止非法进入管理后台
+ */
+Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/admin'], function (){
+    Route::get('/','IndexController@index');
+
+    Route::get('/register', 'AdminController@register');
+    Route::post('/regist', 'AdminController@regist');
+
+    Route::post('/logout', 'AdminController@logout');
+    Route::get('/list', 'AdminController@list');
+    Route::get('/add', 'AdminController@add');
+    Route::post('/doAdd', 'AdminController@doAdd');
+    Route::post('/freeze', 'AdminController@freeze');
+    Route::get('/update/user_id/{user_id}', 'AdminController@update');
+    Route::post('/doUpdate/', 'AdminController@doUpdate');
+    Route::get('/admindetail/user_id/{user_id}', 'AdminController@adminDetail');
+
+    Route::get('/rolelist', 'AdminController@roleList');
+    Route::get('/delrole/role_id/{role_id}', 'AdminController@delRole');
+    Route::get('/addrole', 'AdminController@addRole');
+    Route::post('/doAddRole', 'AdminController@doAddRole');
+    Route::get('/detail/role_id/{role_id}', 'AdminController@roleDetail');
+    Route::post('/doupdaterole', 'AdminController@doUpdateRole');
+    Route::get('/updaterole/role_id/{role_id}', 'AdminController@updateRole');
 });
 
-
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/adminlogin', 'HomeController@login');
-Route::get('/adminregister', 'HomeController@register');

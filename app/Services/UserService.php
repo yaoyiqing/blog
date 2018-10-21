@@ -23,7 +23,7 @@ class UserService
     {
         // 实例化对象
         $userModel = new UserModel();
-        $logModel = new LoginLogModel();
+//        $logModel = new LoginLogModel();
 
         $username = $info['username'];
         $password = md5($info['password']);
@@ -33,9 +33,14 @@ class UserService
         $user = $this->objectToArray($user);
         // 判断信息
         if(!$user || $password != $user['password']){
-            return redirect('login');
+            return false;
         }
-        return $this->loginLog($user) ? true : false;
+        if($this->loginLog($user)){
+            return true;
+        }else{
+            return false;
+        }
+//        return $this->loginLog($user) ? true : false;
     }
 
     /*
@@ -123,6 +128,8 @@ class UserService
         if($result){
             Session::put('user',$user);
             return true;
+        }else{
+            return false;
         }
     }
 
