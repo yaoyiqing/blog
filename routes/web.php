@@ -86,5 +86,12 @@ Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/adm
     Route::get('/detail/role_id/{role_id}', 'AdminController@roleDetail');
     Route::post('/doupdaterole', 'AdminController@doUpdateRole');
     Route::get('/updaterole/role_id/{role_id}', 'AdminController@updateRole');
+
+    Route::get('/menulist', 'AdminController@menuList');
+    Route::get('/updatemenu/menu_id/{menu_id}', 'AdminController@updateMenu');
+    Route::post('/doUpdateMenu', 'AdminController@doUpdateMenu');
+    Route::get('/delmenu/menu_id/{menu_id}', 'AdminController@delMenu');
+    Route::get('/addmenu', 'AdminController@addMenu');
+    Route::post('/doAddMenu', 'AdminController@doAddMenu');
 });
 

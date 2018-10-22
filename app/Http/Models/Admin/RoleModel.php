@@ -63,4 +63,13 @@ class RoleModel extends Model
         $role = DB::table($this->table)->where('role_id',$roleID)->first();
         return $role;
     }
+
+    /*
+     * 修改角色名
+     */
+    public function updateRoleName($role_id,$role)
+    {
+        $res = DB::table($this->table)->where('role_id',$role_id)->update($role);
+        return $res;
+    }
 }

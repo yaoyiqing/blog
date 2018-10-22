@@ -9,8 +9,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\Admin\MenuModel;
 use App\Http\Models\Admin\RoleModel;
 use App\Services\Admin\AdminUserService;
+use App\Services\Admin\MenuService;
 use App\Services\Admin\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -225,7 +227,90 @@ class AdminController extends Controller
     {
         $roleId = $request->post('role_id');
         $this->validate($request,[
-            'role_name' => 'required | unique:mi_admin_role,role_name,' . $roleId . ',role_ids',
+            'role_name' => 'required | unique:mi_admin_role,role_name,' . $roleId . ',role_id',
         ]);
+        $service = new RoleService();
+        $role = $request->input();
+        $res = $service->doUpdateRole($roleId,$role);
+        if($res){
+            return $this->success('修改成功','/admin/rolelist');
+        }else{
+            return $this->error('修改失败','/admin/rolelist');
+        }
+    }
+
+    /*
+     * 权限列表
+     */
+    public function menuList()
+    {
+        $service = new MenuService();
+        $menus = $service->menuList();
+         return view('mi.backend.menuList',['menus'=>$menus]);
+    }
+
+    /*
+     * 删除权限
+     */
+    public function delMenu($menu_id)
+    {
+        $service = new MenuService();
+        $result = $service->delMenu($menu_id);
+        if($result){
+            return $this->success('删除权限成功','/admin/menulist');
+        }else{
+            return $this->error('删除权限失败','/admin/menulist');
+        }
+    }
+
+    public function addMenu()
+    {
+        $service = new MenuService();
+        $menus = $service->menuList();
+        return view('mi.backend.addmenu',['menus'=>$menus]);
+    }
+
+    public function doAddMenu(Request $request)
+    {
+        $this->validate($request,[
+            'text' => 'required | unique:mi_admin_menu,text',
+            'url' => 'unique:mi_admin_menu',
+            'is_menu' => 'required',
+            'parent_id' => 'required',
+        ]);
+        $menu = $request->input();
+        $service = new MenuService();
+        $res = $service->addMenu($menu);
+        if($res){
+            return $this->success('添加权限成功','/admin/menulist');
+        }else{
+            return $this->success('添加权限失败','/admin/menulist');
+        }
+    }
+
+    public function updateMenu($menuId)
+    {
+        $service = new MenuService();
+        $menu = $service->updateMenu($menuId);
+        return view('mi.backend.updatemenu',['menu'=>$menu]);
+    }
+
+    public function doUpdateMenu(Request $request)
+    {
+        $menuId = $request->post('menu_id');
+        $this->validate($request,[
+            'text' => 'required | unique:mi_admin_menu,text,' . $menuId . ',menu_id',
+            'url' => 'unique:mi_admin_menu,url,' . $menuId . ',menu_id',
+            'is_menu' => 'required',
+            'parent_id' => 'required',
+        ]);
+        $menu = $request->input();
+        $service = new MenuService();
+        $res = $service->doUpdateMenu($menuId,$menu);
+        if($res){
+            return $this->success('修改权限成功','/admin/menulist');
+        }else{
+            return $this->success('修改权限失败','/admin/menulist');
+        }
     }
 }

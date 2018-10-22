@@ -8,7 +8,6 @@
 
 namespace App\Http\Models\Admin;
 
-
 use Illuminate\Support\Facades\DB;
 
 class MenuModel
@@ -44,4 +43,45 @@ class MenuModel
         return $data;
     }
 
+
+    public function delMenu($menu_id)
+    {
+        $res = DB::table($this->table)->where('menu_id',$menu_id)->delete();
+        return $res;
+    }
+
+    public function delMenuByParent($menu_id)
+    {
+        $res = DB::table($this->table)->where('parent_id',$menu_id)->delete();
+        return $res;
+    }
+
+    public function addMenu($menu)
+    {
+        $menuId = DB::table($this->table)->insertGetId($menu);
+        return $menuId;
+    }
+
+    public function getPathByMenu($menu_id)
+    {
+        $res = DB::table($this->table)->where('menu_id',$menu_id)->first();
+        return $res;
+    }
+
+    public function updateMenuOfPath($menuId,$menu)
+    {
+        $res = DB::table($this->table)->where('menu_id',$menuId)->update($menu);
+        return $res;
+    }
+
+    public function getOneMenu($menuId)
+    {
+        $menu = DB::table($this->table)->where('menu_id',$menuId)->first();
+        return $menu;
+    }
+    public function updateMenu($menuId,$menu)
+    {
+        $res = DB::table($this->table)->where('menu_id',$menuId)->update($menu);
+        return $res;
+    }
 }

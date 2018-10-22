@@ -47,6 +47,12 @@ class RoleResourceModel
         return $resource;
     }
 
-
-
+    /*
+     * 通过菜单删除相关数据
+     */
+    public function delByMenu($menu_id)
+    {
+        $res = DB::table($this->table)->where('resource_id',$menu_id)->where('type',0)->delete();
+        return $res;
+    }
 }

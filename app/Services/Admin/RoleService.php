@@ -162,4 +162,37 @@ class RoleService
         $arr['menus']= $this->objectToArray($arr['menus']);
         return $arr;
     }
+
+    public function doUpdateRole($role_id,$role)
+    {
+        $roleModel = new RoleModel();
+        $roleMenuModel = new RoleResourceModel();
+        $roles = [
+            'role_name'=>$role['role_name'],
+        ];
+        foreach($role['menu_name'] as $resource){
+            $roleResource[] = [
+                'role_id' => intval($role_id),
+                'resource_id' => intval($resource),
+                'type' => 0,
+            ];
+        }
+        $result = true;
+        DB::beginTransaction();
+        try{
+            $roleModel->updateRoleName($role_id,$roles);
+            $roleMenuModel->delByRole($role_id);
+            $roleMenuModel->addResource($roleResource);
+            DB::commit();
+        }catch(\Exception $e){
+            $result = false;
+            $e->getMessage();
+            DB::rollBack();
+        }
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
