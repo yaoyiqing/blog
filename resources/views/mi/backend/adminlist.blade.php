@@ -32,7 +32,7 @@
                 @endif
                 @if(session()->get('user.is_supper') == 1)
                     @if($admin->is_supper == 0)
-                        <a href="{{url('')}}" class="fa fa-fw fa-edit" title="修改管理员权限"></a>
+                        <a href="/admin/roleforadmin/user_id/{{$admin->user_id}}" class="fa fa-fw fa-edit" title="分配角色"></a>
                     @endif
                     <a href="" class="fa fa-fw fa-close" title="删除管理员"></a>
 

@@ -9,9 +9,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\Admin\ButtonModel;
 use App\Http\Models\Admin\MenuModel;
 use App\Http\Models\Admin\RoleModel;
 use App\Services\Admin\AdminUserService;
+use App\Services\Admin\ButtonService;
 use App\Services\Admin\MenuService;
 use App\Services\Admin\RoleService;
 use Illuminate\Http\Request;
@@ -148,6 +150,32 @@ class AdminController extends Controller
         $service = new AdminUserService();
         $admin = $service->getSingleDetail($user_id);
         return view('mi.backend.admindetail',['admin'=>$admin]);
+    }
+
+    /*
+     * 给管理员分配角色
+     */
+    public function roleForAdmin($userId)
+    {
+        $service = new AdminUserService();
+        $user = $service->roleForAdmin($userId);
+//        dd($user);
+        return view('mi.backend.roleforuser',['user'=>$user['userinfo'],'roles'=>$user['roles'],'roleForUser'=>$user['roleforuser']]);
+    }
+
+    public function doRoleForAdmin(Request $request)
+    {
+        $info = $request->input();
+        $this->validate($request,[
+            'role_name' => 'required',
+        ]);
+        $service = new AdminUserService();
+        $res = $service->doRoleForUser($info);
+        if($res){
+            return $this->success('分配角色成功','/admin/list');
+        }else{
+            return $this->error('分配角色失败','/admin/list');
+        }
     }
 
     /*
@@ -311,6 +339,71 @@ class AdminController extends Controller
             return $this->success('修改权限成功','/admin/menulist');
         }else{
             return $this->success('修改权限失败','/admin/menulist');
+        }
+    }
+
+    public function buttonList()
+    {
+        $service = new ButtonService();
+        $buttons = $service->getButtons();
+        return view('mi.backend.buttonlist',['buttons'=>$buttons]);
+    }
+
+    public function delButton($buttonId)
+    {
+        $service = new ButtonService();
+        $res = $service->delButton($buttonId);
+        if($res){
+            return $this->success('删除按钮成功','/admin/buttonlist');
+        }else{
+            return $this->error('删除按钮失败','/admin/buttonlist');
+        }
+    }
+
+    public function addButton()
+    {
+        $service = new ButtonService();
+        $menus = $service->addButton();
+        return view('mi.backend.addbutton',['menus'=>$menus]);
+    }
+
+    public function doAddButton(Request $request)
+    {
+        $this->validate($request,[
+            'button_name' => 'required | unique:mi_admin_button,button_name',
+            'menu_id' => 'required',
+        ]);
+        $button = $request->input();
+        $service = new ButtonService();
+        $res = $service->doAddButton($button);
+        if($res){
+            return $this->success('添加按钮成功','/admin/buttonlist');
+        }else{
+            return $this->error('添加按钮失败','/admin/buttonlist');
+        }
+    }
+
+    public function updateButton($buttonId)
+    {
+        $service = new ButtonService();
+        $buttoninfo = $service->updateButton($buttonId);
+        return view('mi.backend.updatebutton',['button'=>$buttoninfo,'menus'=>$buttoninfo->menus]);
+    }
+
+    public function doUpdateButton(Request $request)
+    {
+        $buttonId = $request->post('button_id');
+        $this->validate($request,[
+            'button_name' => 'required | unique:mi_admin_button,button_name,' . $buttonId . ',button_id',
+            'menu_id' => 'required',
+        ]);
+        $info = $request->input();
+        $service = new ButtonService();
+        $res = $service->doUpdateButton($buttonId,$info);
+        if($res){
+            return $this->success('修改按钮成功','/admin/buttonlist');
+        }else{
+            return $this->error('修改按钮失败','/admin/buttonlist');
         }
     }
 }

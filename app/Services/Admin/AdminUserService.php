@@ -11,6 +11,8 @@ namespace App\Services\Admin;
 use App\Http\Models\Admin\RoleModel;
 use App\Http\Models\Admin\UserModel;
 use App\Http\Models\Admin\UserRoleModel;
+use function Couchbase\defaultDecoder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class AdminUserService
@@ -157,4 +159,50 @@ class AdminUserService
         return $res;
     }
 
+    public function roleForAdmin($userId)
+    {
+        $model = new RoleModel();
+        $user['roles'] = $model->allRole();
+        $userRoleModel = new UserRoleModel();
+        $roleforuser = $userRoleModel->getRoleByUser($userId);
+        $user['roleforuser'] = [];
+        foreach($roleforuser as $key => $role){
+            foreach($role as $k => $val){
+                if($k == 'role_id'){
+                    $user['roleforuser'][] = $val;
+                }
+            }
+        }
+        $userModel = new UserModel();
+        $user['userinfo'] = $userModel->getUserinfo('user_id',$userId);
+        return $user;
+    }
+
+    public function doRoleForUser($info)
+    {
+        $model = new UserRoleModel();
+        foreach($info['role_name'] as $val){
+            $rolesOfUser[] = [
+                'user_id' => $info['user_id'],
+                'role_id' => $val,
+            ];
+        }
+//        dd($rolesOfUser);
+        $result = true;
+        DB::beginTransaction();
+        try{
+            $model->delByUser($info['user_id']);
+            $model->addUserRole($rolesOfUser);
+            DB::commit();
+        }catch(\Exception $e){
+            $result = false;
+            $e->getMessage();
+            DB::rollBack();
+        }
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

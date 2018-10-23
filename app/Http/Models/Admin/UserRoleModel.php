@@ -31,4 +31,22 @@ class UserRoleModel
         $res = DB::table($this->table)->where('role_id',$roleid)->delete();
         return $res;
     }
+
+    public function getRoleByUser($userId)
+    {
+        $roleOfUser = DB::table('mi_admin_role')
+            ->join('mi_admin_user_role','mi_admin_role.role_id','=','mi_admin_user_role.role_id')
+            ->where('mi_admin_user_role.user_id','=',$userId)
+            ->get();
+        return $roleOfUser;
+    }
+
+    /*
+     * 删除指定角色相关的数据
+     */
+    public function delByUser($userId)
+    {
+        $res = DB::table($this->table)->where('user_id',$userId)->delete();
+        return $res;
+    }
 }

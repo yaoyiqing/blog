@@ -72,4 +72,10 @@ class RoleModel extends Model
         $res = DB::table($this->table)->where('role_id',$role_id)->update($role);
         return $res;
     }
+
+    public function allRole()
+    {
+        $roles = DB::table($this->table)->get();
+        return $roles;
+    }
 }

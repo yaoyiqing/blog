@@ -45,7 +45,7 @@ Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
-Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
+Route::get('/prompt','Mi\TurnController@turn');     // 跳转提示信息
 
 
 
@@ -78,6 +78,8 @@ Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/adm
     Route::get('/update/user_id/{user_id}', 'AdminController@update');
     Route::post('/doUpdate/', 'AdminController@doUpdate');
     Route::get('/admindetail/user_id/{user_id}', 'AdminController@adminDetail');
+    Route::get('/roleforadmin/user_id/{user_id}', 'AdminController@roleForAdmin');
+    Route::post('/doRoleForUser', 'AdminController@doRoleForAdmin');
 
     Route::get('/rolelist', 'AdminController@roleList');
     Route::get('/delrole/role_id/{role_id}', 'AdminController@delRole');
@@ -93,5 +95,12 @@ Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/adm
     Route::get('/delmenu/menu_id/{menu_id}', 'AdminController@delMenu');
     Route::get('/addmenu', 'AdminController@addMenu');
     Route::post('/doAddMenu', 'AdminController@doAddMenu');
+
+    Route::get('/buttonlist', 'AdminController@buttonList');
+    Route::get('/delbutton/button_id/{button_id}', 'AdminController@delButton');
+    Route::get('/addbutton', 'AdminController@addButton');
+    Route::post('/doAddButton', 'AdminController@doAddButton');
+    Route::get('/updatebutton/button_id/{button_id}', 'AdminController@updateButton');
+    Route::post('/doUpdateButton', 'AdminController@doUpdateButton');
 });
 

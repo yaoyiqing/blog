@@ -8,6 +8,7 @@
 
 namespace App\Services\Admin;
 
+use App\Http\Models\Admin\ButtonModel;
 use App\Http\Models\Admin\MenuModel;
 use App\Http\Models\Admin\RoleResourceModel;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +19,7 @@ class MenuService
     public function registerMenu()
     {
         $user_id = session()->get('user.user_id');
-        $sql = 'SELECT menu_id,text,url,parent_id FROM mi_admin_menu join (select resource_id,`type` from mi_admin_role_resource as a join (select role_id from mi_admin_user_role where user_id = ' . $user_id . ') as b where a.role_id = b.role_id)
-as z where mi_admin_menu.menu_id = z.resource_id and mi_admin_menu.is_menu = 1';
+        $sql = 'SELECT distinct(menu_id),text,url,parent_id FROM mi_admin_menu join (select resource_id,`type` from mi_admin_role_resource as a join (select role_id from mi_admin_user_role where user_id = ' . $user_id . ') as b where a.role_id = b.role_id) as z where mi_admin_menu.menu_id = z.resource_id and mi_admin_menu.is_menu = 1';
         $menus = DB::select($sql);
 //        dump($data);die;
 //        $model = new MenuModel();
@@ -74,12 +74,14 @@ as z where mi_admin_menu.menu_id = z.resource_id and mi_admin_menu.is_menu = 1';
     {
         $model = new MenuModel();
         $resourceModel = new RoleResourceModel();
+        $buttonModel = new ButtonModel();
         $result = true;
         DB::beginTransaction();
         try{
             $model->delMenu($menu_id);
             $model->delMenuByParent($menu_id);
             $resourceModel->delByMenu($menu_id);
+            $buttonModel->delButtonByMneu($menu_id);
             DB::commit();
         }catch(\Exception $e){
             $result = false;

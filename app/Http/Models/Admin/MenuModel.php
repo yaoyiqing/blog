@@ -20,7 +20,7 @@ class MenuModel
 
     public function getMenu()
     {
-        $menus = DB::table($this->table)->where('is_menu',1)->get();
+        $menus = DB::table($this->table)->where('is_menu',1)->orderBy('path')->get();
         return $menus;
     }
 
