@@ -28,6 +28,7 @@ class BackendRoleService
         foreach ($data as $key => $v) {
             $url[] = $v->url;
         }
+//        dd($pathInfo);
         if (in_array($pathInfo,$url)){
             return true;
         }else {

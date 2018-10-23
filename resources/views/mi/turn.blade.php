@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="flex-center position-ref full-height">
-    <a href="{{URL::asset('/admin')}}">点击到商城首页</a>
+    注册成功提醒,<a href="{{URL::asset('/turn')}}">点击到商城首页</a>
 </div>
 </body>
 </html>

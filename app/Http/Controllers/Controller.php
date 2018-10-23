@@ -22,7 +22,7 @@ class Controller extends BaseController
             'jumpTime' => $jumpTime,  //跳转时间
             'status' => true,   //跳转类型 true | false
         ];
-        return view('mi.prompt',['data' => $data]);
+        return view('mi.Prompt',['data' => $data]);
     }
 
     /*
@@ -36,6 +36,6 @@ class Controller extends BaseController
             'jumpTime' => $jumpTime,
             'status' => false,
         ];
-        return view('mi.prompt',['data' => $data]);
+        return view('mi.Prompt',['data' => $data]);
     }
 }

@@ -45,7 +45,7 @@ Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
-Route::get('/prompt','Mi\TurnController@turn');     // 跳转提示信息
+Route::get('/prompt','Prompt\PromptController@index');     // 跳转提示信息
 
 
 
@@ -60,6 +60,7 @@ Route::get('/prompt','Mi\TurnController@turn');     // 跳转提示信息
 
 Route::get('/admin/login', 'Admin\AdminController@login');
 Route::post('/admin/doLogin', 'Admin\AdminController@doLogin');
+Route::post('/admin/logout', 'Admin\AdminController@logout');
 
 /*
  * 利用中间件防止非法进入管理后台
@@ -70,7 +71,6 @@ Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/adm
     Route::get('/register', 'AdminController@register');
     Route::post('/regist', 'AdminController@regist');
 
-    Route::post('/logout', 'AdminController@logout');
     Route::get('/list', 'AdminController@list');
     Route::get('/add', 'AdminController@add');
     Route::post('/doAdd', 'AdminController@doAdd');
