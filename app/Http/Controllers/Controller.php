@@ -14,7 +14,7 @@ class Controller extends BaseController
     /*
      * 操作成功跳转提示
      */
-    public function success($message,$url = '/index',$jumpTime = 3)
+    public function success($message,$url,$jumpTime = 3)
     {
         $data = [
             'message' => $message,  //跳转展示信息
@@ -22,13 +22,13 @@ class Controller extends BaseController
             'jumpTime' => $jumpTime,  //跳转时间
             'status' => true,   //跳转类型 true | false
         ];
-        return view('mi.prompt',['data' => $data]);
+        return view('mi.Prompt',['data' => $data]);
     }
 
     /*
      * 操作失败跳转提示
      */
-    public function error($message,$url = '/index',$jumpTime = 3)
+    public function error($message,$url,$jumpTime = 3)
     {
         $data = [
             'message' => $message,
@@ -36,6 +36,6 @@ class Controller extends BaseController
             'jumpTime' => $jumpTime,
             'status' => false,
         ];
-        return view('mi.prompt',['data' => $data]);
+        return view('mi.Prompt',['data' => $data]);
     }
 }

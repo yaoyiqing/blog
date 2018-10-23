@@ -41,6 +41,8 @@ class UserController extends Controller
         // 根据service层登录方法的返回值判断执行相应的结果（跳转/返回错误信息）
         if($result){
             return $this->success('登录成功','index');
+        }else{
+            return $this->error('登录失败','login');
         }
     }
 

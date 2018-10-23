@@ -17,17 +17,9 @@ Route::get('/', function () {
 //Route::get('/hello', function () {
 //    return 'My Laravel!';
 //});
-//Route::get('/index', 'Index\IndexController@hello');
-//Route::get('/test', 'Test\TestController@select');
-//Route::get('/add', 'Test\TestController@add');
-//Route::get('/del', 'Test\TestController@del');
-//Route::get('/update', 'Test\TestController@update');
-
-//Route::get('/index', 'Test\TestController@index');
-//Route::post('/insert', 'Test\TestController@insert');
 
 /*
- * 小米商城
+ * 小米商城前台
 */
 Route::get('/index','Mi\IndexController@index');        //  首页
 
@@ -53,20 +45,62 @@ Route::get('/detail','Mi\IndexController@detail');      //  详情页
 
 Route::get('/turn','Mi\TurnController@turn');      //  详情页
 
-Route::get('/prompt','Mi\TurnController@index');     // 跳转提示信息
+Route::get('/prompt','Prompt\PromptController@index');     // 跳转提示信息
 
-Route::get('/admin',function(){
-    return view('mi.backend.dashboard');
+
+
+
+/*
+ * 小米商城后台
+*/
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/admin/login', 'Admin\AdminController@login');
+Route::post('/admin/doLogin', 'Admin\AdminController@doLogin');
+Route::post('/admin/logout', 'Admin\AdminController@logout');
+
+/*
+ * 利用中间件防止非法进入管理后台
+ */
+Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/admin'], function (){
+    Route::get('/','IndexController@index');
+
+    Route::get('/register', 'AdminController@register');
+    Route::post('/regist', 'AdminController@regist');
+
+    Route::get('/list', 'AdminController@list');
+    Route::get('/add', 'AdminController@add');
+    Route::post('/doAdd', 'AdminController@doAdd');
+    Route::post('/freeze', 'AdminController@freeze');
+    Route::get('/update/user_id/{user_id}', 'AdminController@update');
+    Route::post('/doUpdate/', 'AdminController@doUpdate');
+    Route::get('/admindetail/user_id/{user_id}', 'AdminController@adminDetail');
+    Route::get('/roleforadmin/user_id/{user_id}', 'AdminController@roleForAdmin');
+    Route::post('/doRoleForUser', 'AdminController@doRoleForAdmin');
+
+    Route::get('/rolelist', 'AdminController@roleList');
+    Route::get('/delrole/role_id/{role_id}', 'AdminController@delRole');
+    Route::get('/addrole', 'AdminController@addRole');
+    Route::post('/doAddRole', 'AdminController@doAddRole');
+    Route::get('/detail/role_id/{role_id}', 'AdminController@roleDetail');
+    Route::post('/doupdaterole', 'AdminController@doUpdateRole');
+    Route::get('/updaterole/role_id/{role_id}', 'AdminController@updateRole');
+
+    Route::get('/menulist', 'AdminController@menuList');
+    Route::get('/updatemenu/menu_id/{menu_id}', 'AdminController@updateMenu');
+    Route::post('/doUpdateMenu', 'AdminController@doUpdateMenu');
+    Route::get('/delmenu/menu_id/{menu_id}', 'AdminController@delMenu');
+    Route::get('/addmenu', 'AdminController@addMenu');
+    Route::post('/doAddMenu', 'AdminController@doAddMenu');
+
+    Route::get('/buttonlist', 'AdminController@buttonList');
+    Route::get('/delbutton/button_id/{button_id}', 'AdminController@delButton');
+    Route::get('/addbutton', 'AdminController@addButton');
+    Route::post('/doAddButton', 'AdminController@doAddButton');
+    Route::get('/updatebutton/button_id/{button_id}', 'AdminController@updateButton');
+    Route::post('/doUpdateButton', 'AdminController@doUpdateButton');
 });
 
-
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/adminlogin', 'HomeController@login');
-Route::get('/adminregister', 'HomeController@register');

@@ -24,4 +24,10 @@ class CateModel extends Model
         $data = DB::table($this->table)->select($column)->get();
         return $data;
     }
+
+    public function addCategory($cate)
+    {
+        $res = DB::table($this->table)->insert($cate);
+        return $res;
+    }
 }
