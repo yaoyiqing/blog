@@ -20,15 +20,29 @@ class BackendRoleService
     public static function getUrl($pathInfo)
     {
         $roleId = self::getRole();          //获取角色ID
-        $data = DB::table('mi_admin_menu')
-            ->leftjoin('mi_admin_role_resource','mi_admin_menu.menu_id','=','mi_admin_role_resource.resource_id')
-            ->whereIn('mi_admin_role_resource.role_id',$roleId)
+        $menus = DB::table('mi_admin_menu')
+            ->join('mi_admin_role_resource','mi_admin_menu.menu_id','=','mi_admin_role_resource.resource_id')
+//            ->join('mi_admin_button','mi_admin_button.button_id','=','mi_admin_role_resource.resource_id')
+            ->where('mi_admin_role_resource.role_id',$roleId)
+            ->where('mi_admin_role_resource.type','=','0')
             ->get();
-        $url = [];
-        foreach ($data as $key => $v) {
-            $url[] = $v->url;
+
+        $buttons = DB::table('mi_admin_button')
+            ->join('mi_admin_role_resource','mi_admin_button.button_id','=','mi_admin_role_resource.resource_id')
+            ->where('mi_admin_role_resource.role_id',$roleId)
+            ->where('mi_admin_role_resource.type','=','1')
+            ->get();
+
+        $button = [];
+        $menu = [];
+        foreach ($buttons as $key => $v) {
+            $button[] = $v->url;
         }
-//        dd($pathInfo);
+        foreach ($menus as $key => $v) {
+            $menu[] = $v->url;
+        }
+        $url =array_merge($menu,$button);
+//        dd($url);
         if (in_array($pathInfo,$url)){
             return true;
         }else {
