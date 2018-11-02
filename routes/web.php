@@ -102,5 +102,37 @@ Route::group(['middleware' => ['login'],'namespace' => 'Admin','prefix' => '/adm
     Route::post('/doAddButton', 'AdminController@doAddButton');
     Route::get('/updatebutton/button_id/{button_id}', 'AdminController@updateButton');
     Route::post('/doUpdateButton', 'AdminController@doUpdateButton');
+
+    Route::get('/goodslist', 'GoodsController@goodsList');
+    Route::get('/addgoods', 'GoodsController@addGoods');
+    Route::post('/doAddGoods', 'GoodsController@doAddGoods');
+    Route::get('/delgoods/goods_id/{goods_id}', 'GoodsController@delGoods');
+    Route::get('/updategoods/goods_id/{goods_id}', 'GoodsController@updateGoods');
+    Route::post('/doUpdateGoods', 'GoodsController@doUpdateGoods');
+    Route::post('/onsale', 'GoodsController@onsale');
+    Route::get('/goodsdetail/goods_id/{goods_id}', 'GoodsController@goodsDetail');
+    Route::post('/getattrbycate', 'GoodsController@getAttrByCate');
+    Route::post('/getvaluebyattr', 'GoodsController@getValueByAttr');
+
+    Route::get('/catelist', 'GoodsController@cateList');
+    Route::get('/addcate', 'GoodsController@addCate');
+    Route::post('/doAddCate', 'GoodsController@doAddCate');
+    Route::get('/delcate/cate_id/{cate_id}', 'GoodsController@delCate');
+    Route::get('/updatecate/cate_id/{cate_id}', 'GoodsController@updateCate');
+    Route::post('/doUpdateCate', 'GoodsController@doUpdateCate');
+
+    Route::get('/attrlist', 'GoodsController@attrList');
+    Route::get('/addattr', 'GoodsController@addAttr');
+    Route::post('/doAddAttr', 'GoodsController@doAddAttr');
+    Route::get('/delattr/attr_id/{attr_id}', 'GoodsController@delAttr');
+    Route::get('/updateattr/attr_id/{attr_id}', 'GoodsController@updateAttr');
+    Route::post('/doUpdateAttr', 'GoodsController@doUpdateAttr');
+
+    Route::get('/attrvaluelist', 'GoodsController@attrValueList');
+    Route::get('/addattrvalue', 'GoodsController@addAttrValue');
+    Route::post('/doAddValue', 'GoodsController@doAddValue');
+    Route::get('/delattrvalue/value_id/{value_id}', 'GoodsController@delValue');
+    Route::get('/updateattrvalue/value_id/{value_id}', 'GoodsController@updateValue');
+    Route::post('/doUpdateAttrValue', 'GoodsController@doUpdateAttrValue');
 });
 

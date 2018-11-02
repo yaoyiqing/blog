@@ -39,7 +39,7 @@ class IndexService
      */
     public function getCate()
     {
-        $cates = $this->_cateModel->getCategory();
+        $cates = $this->_cateModel->getCates();
         return $cates;
     }
 
